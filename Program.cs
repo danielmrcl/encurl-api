@@ -29,6 +29,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors(SpecificOriginsPolicyName);
 
-app.MapPost("/api/links", Routers.PostLinks);
+var router = new Router();
+app.MapPost("/api/links", router.PostLinks);
 
 app.Run();
