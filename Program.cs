@@ -17,6 +17,8 @@ builder.Services.AddCors(options =>
 		});
 });
 
+builder.Services.AddSingleton(new LinkService());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,7 +31,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors(SpecificOriginsPolicyName);
 
-var router = new Router();
-app.MapPost("/api/links", router.PostLinks);
+var apiLinks = app.MapGroup("/api/links");
+
+apiLinks.MapPost("", (CreateLinkDTO dto, LinkService service) =>
+	Results.Ok(service.CreateLink(dto))
+);
 
 app.Run();

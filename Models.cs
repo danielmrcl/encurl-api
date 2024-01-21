@@ -1,1 +1,1 @@
-public record GenerateLinkDTO(string url);
+public record CreateLinkDTO(string url);
