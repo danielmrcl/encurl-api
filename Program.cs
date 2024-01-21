@@ -34,7 +34,15 @@ app.UseCors(SpecificOriginsPolicyName);
 var apiLinks = app.MapGroup("/api/links");
 
 apiLinks.MapPost("", (CreateLinkDTO dto, LinkService service) =>
-	Results.Ok(service.CreateLink(dto))
-);
+{
+	try
+	{
+		return Results.Ok(service.CreateLink(dto));
+	}
+	catch (InvalidFormException e)
+	{
+		return Results.BadRequest(new ErrorDTO(400, e.Message));
+	}
+});
 
 app.Run();

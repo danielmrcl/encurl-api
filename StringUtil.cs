@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Text.RegularExpressions;
 
 public class StringUtil {
 
@@ -10,6 +11,9 @@ public class StringUtil {
 		'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
 		'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 	};
+
+	private static readonly string _urlRegExp =	"https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]"
+		+ "{2,256}\\.[a-z]{2,4}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
 
 	public static string GenerateNewLinkCode()
 	{
@@ -23,5 +27,10 @@ public class StringUtil {
 		}
 
 		return sb.ToString();
+	}
+
+	public static bool IsValidUrl(string url)
+	{
+		return Regex.IsMatch(url, _urlRegExp);
 	}
 }
