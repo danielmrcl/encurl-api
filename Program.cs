@@ -17,7 +17,11 @@ builder.Services.AddCors(options =>
 		});
 });
 
-builder.Services.AddSingleton(new LinkService());
+builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("Database"));
+
+builder.Services.AddSingleton<LinkService>();
+builder.Services.AddSingleton<DBClient>();
+builder.Services.AddSingleton<LinkRepository>();
 
 var app = builder.Build();
 
