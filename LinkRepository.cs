@@ -13,4 +13,11 @@ public class LinkRepository
 	{
 		_client.InsertOne(link);
 	}
+
+	public Link FindByCode(string code)
+	{
+		var filter = new FilterDefinitionBuilder<Link>()
+			.Eq(v => v.Code, code);
+		return _client.FindSync(filter).Single();
+	}
 }

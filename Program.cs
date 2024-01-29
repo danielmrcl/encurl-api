@@ -35,9 +35,19 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors(SpecificOriginsPolicyName);
 
-var apiLinks = app.MapGroup("/api/links");
+app.MapGet("/{code}", (string code, LinkService service) =>
+{
+	try
+	{
+		return Results.Redirect(service.FindLink(code), true, false);
+	}
+	catch (InvalidOperationException e)
+	{
+		return Results.BadRequest(new ErrorDTO(400, e.Message));
+	}
+});
 
-apiLinks.MapPost("", (CreateLinkDTO dto, LinkService service) =>
+app.MapPost("/api/links", (CreateLinkDTO dto, LinkService service) =>
 {
 	try
 	{

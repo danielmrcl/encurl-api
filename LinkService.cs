@@ -11,6 +11,11 @@ public class LinkService
 		this._repository = repository;
 	}
 
+	public String FindLink(string code)
+	{
+		return _repository.FindByCode(code).Url;
+	}
+
 	public CreateLinkResponseDTO CreateLink(CreateLinkDTO dto)
 	{
 		_ValidateDto(dto);
