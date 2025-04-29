@@ -21,7 +21,7 @@ public class LinkService
 		_ValidateDto(dto);
 		var link = new Link()
 		{
-			Code = StringUtil.GenerateNewLinkCode(),
+			Code = $"{StringUtil.ExtractHostname(dto.url)}-{StringUtil.GenerateNewLinkCode()}",
 			Url = dto.url
 		};
 		_repository.Save(link);

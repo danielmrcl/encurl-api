@@ -33,4 +33,23 @@ public class StringUtil {
 	{
 		return Regex.IsMatch(url, _urlRegExp);
 	}
+
+	public static string ExtractHostname(string url)
+	{
+		Uri uri = new Uri(url);
+		string host = uri.Host;
+
+		if (host.StartsWith("www."))
+		{
+			host = host.Substring(4);
+		}
+
+		string[] parts = host.Split('.');
+		if (parts.Length >= 2)
+		{
+			return parts[parts.Length - 2];
+		}
+
+		return host;
+	}
 }
