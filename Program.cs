@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,8 +20,10 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("Database"));
+builder.Services.Configure<StaticCretentialsSettings>(builder.Configuration.GetSection("StaticCretentials"));
 
 builder.Services.AddSingleton<LinkService>();
+builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<DBClient>();
 builder.Services.AddSingleton<LinkRepository>();
 
@@ -47,10 +51,17 @@ app.MapGet("/{code}", (string code, LinkService service) =>
 	}
 });
 
-app.MapPost("/api/links", (CreateLinkDTO dto, LinkService service) =>
+app.MapPost("/api/links", (CreateLinkDTO dto, LinkService service, AuthService authService,
+			[FromHeader(Name = "Authorization")] string tokenBasic) =>
 {
 	try
 	{
+		// TODO: Auth middleware to run on all critical or db-persistent endpoints.
+		if (!authService.IsAuthorized(tokenBasic))
+		{
+			return Results.Unauthorized();
+		}
+
 		return Results.Ok(service.CreateLink(dto));
 	}
 	catch (InvalidFormException e)
