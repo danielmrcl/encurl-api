@@ -1,10 +1,13 @@
-using MongoDB.Driver;
+namespace api.database;
 
-public class LinkRepository
+using MongoDB.Driver;
+using api.models;
+
+public class LinkDAO
 {
 	private readonly IMongoCollection<Link> _client;
 
-	public LinkRepository(DBClient client)
+	public LinkDAO(DBClient client)
 	{
 		this._client = client.GetCollection<Link>();
 	}

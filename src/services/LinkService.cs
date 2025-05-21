@@ -1,11 +1,15 @@
-using System.Collections.Generic;
+namespace api.services;
+
+using api.database;
+using api.models;
+using api.utils;
 
 public class LinkService
 {
 	private readonly string _baseUrl;
-	private readonly LinkRepository _repository;
+	private readonly LinkDAO _repository;
 
-	public LinkService(LinkRepository repository)
+	public LinkService(LinkDAO repository)
 	{
 		this._baseUrl = Environment.GetEnvironmentVariable("ACCESS_LINK_BASE_URL")!;
 		this._repository = repository;

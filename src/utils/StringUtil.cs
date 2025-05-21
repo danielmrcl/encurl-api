@@ -1,3 +1,5 @@
+namespace api.utils;
+
 using System;
 using System.Text;
 using System.Text.RegularExpressions;

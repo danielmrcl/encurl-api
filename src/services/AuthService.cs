@@ -1,6 +1,9 @@
+namespace api.services;
+
 using System;
 using System.Text;
 using Microsoft.Extensions.Options;
+using api.models;
 
 public class AuthService
 {

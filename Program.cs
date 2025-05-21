@@ -1,17 +1,12 @@
-using Microsoft.AspNetCore.Mvc;
+using api.config;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 // Add CORS Policy
-var SpecificOriginsPolicyName = "_specificOriginsPolicyName";
+var specificOriginsPolicyName = "_specificOriginsPolicyName";
 builder.Services.AddCors(options =>
 {
-	options.AddPolicy(name: SpecificOriginsPolicyName, policy =>
+	options.AddPolicy(name: specificOriginsPolicyName, policy =>
 		{
 			policy.WithOrigins("http://localhost:5173")
 				.WithMethods("POST")
@@ -19,55 +14,14 @@ builder.Services.AddCors(options =>
 		});
 });
 
-builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("Database"));
-builder.Services.Configure<StaticCretentialsSettings>(builder.Configuration.GetSection("StaticCretentials"));
-
-builder.Services.AddSingleton<LinkService>();
-builder.Services.AddSingleton<AuthService>();
-builder.Services.AddSingleton<DBClient>();
-builder.Services.AddSingleton<LinkRepository>();
+ConfigureBuilder.Settings(builder);
+ConfigureBuilder.Singletons(builder);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 app.UseHttpsRedirection();
-app.UseCors(SpecificOriginsPolicyName);
+app.UseCors(specificOriginsPolicyName);
 
-app.MapGet("/{code}", (string code, LinkService service) =>
-{
-	try
-	{
-		return Results.Redirect(service.FindLink(code), true, false);
-	}
-	catch (InvalidOperationException e)
-	{
-		return Results.BadRequest(new ErrorDTO(400, e.Message));
-	}
-});
-
-app.MapPost("/api/links", (CreateLinkDTO dto, LinkService service, AuthService authService,
-			[FromHeader(Name = "Authorization")] string tokenBasic) =>
-{
-	try
-	{
-		// TODO: Auth middleware to run on all critical or db-persistent endpoints.
-		if (!authService.IsAuthorized(tokenBasic))
-		{
-			return Results.Unauthorized();
-		}
-
-		return Results.Ok(service.CreateLink(dto));
-	}
-	catch (InvalidFormException e)
-	{
-		return Results.BadRequest(new ErrorDTO(400, e.Message));
-	}
-});
+Routes.Map(app);
 
 app.Run();

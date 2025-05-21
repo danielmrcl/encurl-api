@@ -1,6 +1,8 @@
+namespace api.database;
+
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
-using System.Reflection;
+using api.models;
 
 public class DBClient
 {

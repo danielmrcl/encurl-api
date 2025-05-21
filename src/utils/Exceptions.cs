@@ -1,3 +1,5 @@
+namespace api.utils;
+
 public class InvalidFormException : Exception
 {
 	public InvalidFormException(string description)
