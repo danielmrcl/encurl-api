@@ -24,7 +24,7 @@ public class LinkService
 		var link = _repository.FindByCode(code);
 
 		if (link == null) {
-			throw new LinkException("link not found");
+			throw new LinkException("code not found");
 		}
 
 		Task.Run(() => _clickLogService.Save(link, ipAddress));

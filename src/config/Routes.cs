@@ -16,7 +16,7 @@ public static class Routes
 				var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "0.0.0.0";
 				return Results.Redirect(service.FindLink(code, ipAddress), true, false);
 			}
-			catch (InvalidOperationException e)
+			catch (Exception e) when (e is LinkException || e is InvalidOperationException)
 			{
 				return Results.BadRequest(new ErrorDTO(400, e.Message));
 			}

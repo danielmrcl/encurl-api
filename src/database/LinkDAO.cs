@@ -21,7 +21,7 @@ public class LinkDAO
 	{
 		var filter = new FilterDefinitionBuilder<Link>()
 			.Eq(v => v.Code, code);
-		return _client.FindSync(filter).Single();
+		return _client.FindSync(filter).SingleOrDefault();
 	}
 
 	public bool ExistsByCode(string code)
