@@ -22,22 +22,40 @@ public class LinkService
 
 	public CreateLinkResponseDTO CreateLink(CreateLinkDTO dto)
 	{
-		_ValidateDto(dto);
-		var link = new Link()
-		{
-			Code = $"{StringUtil.ExtractHostname(dto.url)}-{StringUtil.GenerateNewLinkCode()}",
-			Url = dto.url
-		};
+		_ValidateLink(dto);
+
+		var link = new Link() { Code = _GetCode(dto), Url = dto.url };
 		_repository.Save(link);
 		return new CreateLinkResponseDTO($"{_baseUrl}/{link.Code}");
 	}
 
-	private void _ValidateDto(CreateLinkDTO dto)
+	private void _ValidateLink(CreateLinkDTO dto)
 	{
 		if (!StringUtil.IsValidUrl(dto.url))
 		{
 			throw new InvalidFormException("url is invalid");
 		}
+
+		if (!string.IsNullOrWhiteSpace(dto.alias))
+		{
+			if (!StringUtil.IsValidAlias(dto.alias))
+			{
+				throw new InvalidFormException("alias is invalid");
+			}
+			if (_repository.ExistsByCode(dto.alias))
+			{
+				throw new InvalidFormException("alias is already in use");
+			}
+		}
+	}
+
+	private string _GetCode(CreateLinkDTO dto)
+	{
+		if (string.IsNullOrWhiteSpace(dto.alias))
+		{
+			return StringUtil.GenerateNewLinkCode();
+		}
+		return dto.alias;
 	}
 
 }

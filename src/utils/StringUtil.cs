@@ -16,6 +16,7 @@ public class StringUtil {
 
 	private static readonly string _urlRegExp =	"(https?:\\/\\/|mailto:)(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]"
 		+ "{2,256}\\.[a-z]{2,4}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
+	private static readonly string _aliasRegExp = "^[a-zA-Z0-9_]{4,10}$";
 
 	public static string GenerateNewLinkCode()
 	{
@@ -36,22 +37,8 @@ public class StringUtil {
 		return Regex.IsMatch(url, _urlRegExp);
 	}
 
-	public static string ExtractHostname(string url)
+	public static bool IsValidAlias(string alias)
 	{
-		Uri uri = new Uri(url);
-		string host = uri.Host;
-
-		if (host.StartsWith("www."))
-		{
-			host = host.Substring(4);
-		}
-
-		string[] parts = host.Split('.');
-		if (parts.Length >= 2)
-		{
-			return parts[parts.Length - 2];
-		}
-
-		return host;
+		return Regex.IsMatch(alias, _aliasRegExp);
 	}
 }

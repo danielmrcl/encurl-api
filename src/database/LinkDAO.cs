@@ -23,4 +23,11 @@ public class LinkDAO
 			.Eq(v => v.Code, code);
 		return _client.FindSync(filter).Single();
 	}
+
+	public bool ExistsByCode(string code)
+	{
+		var filter = new FilterDefinitionBuilder<Link>()
+			.Eq(v => v.Code, code);
+		return _client.FindSync(filter).Any();
+	}
 }

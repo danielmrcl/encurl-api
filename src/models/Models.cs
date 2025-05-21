@@ -1,6 +1,6 @@
 namespace api.models;
 
-public record CreateLinkDTO(string url);
+public record CreateLinkDTO(string url, string? alias);
 
 public record CreateLinkResponseDTO(string generatedUrl);
 
