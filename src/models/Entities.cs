@@ -19,3 +19,15 @@ public class Link
 	[BsonElement("createdAt")]
 	public DateTime CreatedAt { get; set; } = DateTime.Now;
 }
+
+public class ClickLog
+{
+	[BsonElement("linkId")]
+	public required string? LinkId { get; set; }
+
+	[BsonElement("ipAddress")]
+	public required string IpAddress { get; set; }
+
+	[BsonElement("createdAt")]
+	public DateTime CreatedAt { get; set; } = DateTime.Now;
+}

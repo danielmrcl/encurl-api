@@ -8,16 +8,28 @@ public class LinkService
 {
 	private readonly string _baseUrl;
 	private readonly LinkDAO _repository;
+	private readonly ClickLogService _clickLogService;
+	private readonly ILogger<LinkService> _logger;
 
-	public LinkService(LinkDAO repository)
+	public LinkService(LinkDAO repository, ClickLogService clickLogService, ILogger<LinkService> logger)
 	{
 		this._baseUrl = Environment.GetEnvironmentVariable("ACCESS_LINK_BASE_URL")!;
 		this._repository = repository;
+		this._clickLogService = clickLogService;
+		this._logger = logger;
 	}
 
-	public String FindLink(string code)
+	public String FindLink(string code, string ipAddress)
 	{
-		return _repository.FindByCode(code).Url;
+		var link = _repository.FindByCode(code);
+
+		if (link == null) {
+			throw new LinkException("link not found");
+		}
+
+		Task.Run(() => _clickLogService.Save(link, ipAddress));
+
+		return link.Url;
 	}
 
 	public CreateLinkResponseDTO CreateLink(CreateLinkDTO dto)

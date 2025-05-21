@@ -7,3 +7,11 @@ public class InvalidFormException : Exception
 	{
 	}
 }
+
+public class LinkException : Exception
+{
+	public LinkException(string description)
+		: base(String.Format("Link error: {0}", description))
+	{
+	}
+}

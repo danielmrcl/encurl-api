@@ -9,11 +9,12 @@ public static class Routes
 {
 	public static void Map(WebApplication app)
 	{
-		app.MapGet("/{code}", (string code, LinkService service) =>
+		app.MapGet("/{code}", (string code, LinkService service, HttpContext context) =>
 		{
 			try
 			{
-				return Results.Redirect(service.FindLink(code), true, false);
+				var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "0.0.0.0";
+				return Results.Redirect(service.FindLink(code, ipAddress), true, false);
 			}
 			catch (InvalidOperationException e)
 			{

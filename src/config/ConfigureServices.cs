@@ -16,7 +16,9 @@ public static class ConfigureBuilder
 	{
 		builder.Services.AddSingleton<LinkService>();
 		builder.Services.AddSingleton<AuthService>();
+		builder.Services.AddSingleton<ClickLogService>();
 		builder.Services.AddSingleton<DBClient>();
 		builder.Services.AddSingleton<LinkDAO>();
+		builder.Services.AddSingleton<ClickLogDAO>();
 	}
 }

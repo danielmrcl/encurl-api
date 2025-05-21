@@ -25,6 +25,7 @@ public class DBClient
 	{
 		return className switch {
 			"Link" => _dbOptions.LinksCollectionName,
+			"ClickLog" => _dbOptions.ClickLogCollectionName,
 			_ => throw new ArgumentOutOfRangeException(className, "Collection Name Not Registered")
 		};
 	}
