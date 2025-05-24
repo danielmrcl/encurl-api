@@ -13,8 +13,11 @@ public static class Routes
 		{
 			try
 			{
-				var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "0.0.0.0";
-				return Results.Redirect(service.FindLink(code, ipAddress), true, false);
+				var metadata = new RequestMetadata(
+					IpAddress: context.Request.Headers["X-Forwarded-For"].FirstOrDefault() ?? "0.0.0.0",
+					UserAgent: context.Request.Headers["User-Agent"].FirstOrDefault() ?? "Unknown"
+				);
+				return Results.Redirect(service.FindLink(code, metadata), true, false);
 			}
 			catch (Exception e) when (e is LinkException || e is InvalidOperationException)
 			{

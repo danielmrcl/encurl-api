@@ -19,7 +19,7 @@ public class LinkService
 		this._logger = logger;
 	}
 
-	public String FindLink(string code, string ipAddress)
+	public String FindLink(string code, RequestMetadata metadata)
 	{
 		var link = _repository.FindByCode(code);
 
@@ -27,7 +27,7 @@ public class LinkService
 			throw new LinkException("code not found");
 		}
 
-		Task.Run(() => _clickLogService.Save(link, ipAddress));
+		Task.Run(() => _clickLogService.Save(link, metadata));
 
 		return link.Url;
 	}
