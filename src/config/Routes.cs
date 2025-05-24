@@ -1,9 +1,9 @@
-namespace api.config;
+namespace Encurl.Api.Config;
 
 using Microsoft.AspNetCore.Mvc;
-using api.services;
-using api.models;
-using api.utils;
+using Encurl.Api.Services;
+using Encurl.Api.Models;
+using Encurl.Api.Utils;
 
 public static class Routes
 {

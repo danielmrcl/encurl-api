@@ -1,9 +1,9 @@
-namespace api.models;
+namespace Encurl.Api.Models;
 
-public record CreateLinkDTO(string url, string? alias);
+public record CreateLinkDTO(string Url, string? Alias);
 
-public record CreateLinkResponseDTO(string generatedUrl);
+public record CreateLinkResponseDTO(string GeneratedUrl);
 
-public record ErrorDTO(ushort code, string message);
+public record ErrorDTO(ushort Code, string Message);
 
 public record RequestMetadata(string IpAddress, string UserAgent);

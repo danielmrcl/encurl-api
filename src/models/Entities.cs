@@ -1,4 +1,4 @@
-namespace api.models;
+namespace Encurl.Api.Models;
 
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;

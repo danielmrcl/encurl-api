@@ -1,9 +1,9 @@
-namespace api.services;
+namespace Encurl.Api.Services;
 
 using System;
 using System.Text;
 using Microsoft.Extensions.Options;
-using api.models;
+using Encurl.Api.Models;
 
 public class AuthService
 {

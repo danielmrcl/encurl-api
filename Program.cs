@@ -1,4 +1,4 @@
-using api.config;
+using Encurl.Api.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 

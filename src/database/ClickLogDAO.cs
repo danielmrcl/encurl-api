@@ -1,7 +1,7 @@
-namespace api.database;
+namespace Encurl.Api.Database;
 
 using MongoDB.Driver;
-using api.models;
+using Encurl.Api.Models;
 
 public class ClickLogDAO
 {

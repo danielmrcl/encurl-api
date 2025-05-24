@@ -1,4 +1,4 @@
-namespace api.models;
+namespace Encurl.Api.Models;
 
 public class DatabaseSettings
 {

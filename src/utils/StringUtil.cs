@@ -1,4 +1,4 @@
-namespace api.utils;
+namespace Encurl.Api.Utils;
 
 using System;
 using System.Text;

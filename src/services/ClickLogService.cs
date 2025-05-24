@@ -1,8 +1,8 @@
-namespace api.services;
+namespace Encurl.Api.Services;
 
 using System.Text.Json;
-using api.database;
-using api.models;
+using Encurl.Api.Database;
+using Encurl.Api.Models;
 
 public class ClickLogService
 {

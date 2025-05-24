@@ -1,8 +1,8 @@
-namespace api.config;
+namespace Encurl.Api.Config;
 
-using api.models;
-using api.services;
-using api.database;
+using Encurl.Api.Models;
+using Encurl.Api.Services;
+using Encurl.Api.Database;
 
 public static class ConfigureBuilder
 {

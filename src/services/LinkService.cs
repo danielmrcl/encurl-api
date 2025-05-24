@@ -1,8 +1,8 @@
-namespace api.services;
+namespace Encurl.Api.Services;
 
-using api.database;
-using api.models;
-using api.utils;
+using Encurl.Api.Database;
+using Encurl.Api.Models;
+using Encurl.Api.Utils;
 
 public class LinkService
 {
@@ -36,25 +36,25 @@ public class LinkService
 	{
 		_ValidateLink(dto);
 
-		var link = new Link() { Code = _GetCode(dto), Url = dto.url };
+		var link = new Link() { Code = _GetCode(dto), Url = dto.Url };
 		_repository.Save(link);
 		return new CreateLinkResponseDTO($"{_baseUrl}/{link.Code}");
 	}
 
 	private void _ValidateLink(CreateLinkDTO dto)
 	{
-		if (!StringUtil.IsValidUrl(dto.url))
+		if (!StringUtil.IsValidUrl(dto.Url))
 		{
 			throw new InvalidFormException("url is invalid");
 		}
 
-		if (!string.IsNullOrWhiteSpace(dto.alias))
+		if (!string.IsNullOrWhiteSpace(dto.Alias))
 		{
-			if (!StringUtil.IsValidAlias(dto.alias))
+			if (!StringUtil.IsValidAlias(dto.Alias))
 			{
 				throw new InvalidFormException("alias is invalid");
 			}
-			if (_repository.ExistsByCode(dto.alias))
+			if (_repository.ExistsByCode(dto.Alias))
 			{
 				throw new InvalidFormException("alias is already in use");
 			}
@@ -63,11 +63,11 @@ public class LinkService
 
 	private string _GetCode(CreateLinkDTO dto)
 	{
-		if (string.IsNullOrWhiteSpace(dto.alias))
+		if (string.IsNullOrWhiteSpace(dto.Alias))
 		{
 			return StringUtil.GenerateNewLinkCode();
 		}
-		return dto.alias;
+		return dto.Alias;
 	}
 
 }

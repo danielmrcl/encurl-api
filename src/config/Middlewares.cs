@@ -1,6 +1,6 @@
-namespace api.config;
+namespace Encurl.Api.Config;
 
-using api.services;
+using Encurl.Api.Services;
 
 public static class Middlewares
 {
@@ -16,8 +16,8 @@ public static class Middlewares
 
 				if (!authService.IsAuthorized(tokenBasic))
 				{
-				context.Response.StatusCode = 401;
-				return;
+					context.Response.StatusCode = 401;
+					return;
 				}
 			}
 			
