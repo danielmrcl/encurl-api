@@ -22,6 +22,7 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseCors(specificOriginsPolicyName);
 
+Middlewares.Configure(app);
 Routes.Map(app);
 
 app.Run();

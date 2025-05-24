@@ -25,17 +25,10 @@ public static class Routes
 			}
 		});
 
-		app.MapPost("/api/links", (CreateLinkDTO dto, LinkService service, AuthService authService,
-					[FromHeader(Name = "Authorization")] string tokenBasic) =>
+		app.MapPost("/api/links", (CreateLinkDTO dto, LinkService service, AuthService authService) =>
 		{
 			try
 			{
-				// TODO: Auth middleware to run on all critical or db-persistent endpoints.
-				if (!authService.IsAuthorized(tokenBasic))
-				{
-					return Results.Unauthorized();
-				}
-
 				return Results.Ok(service.CreateLink(dto));
 			}
 			catch (InvalidFormException e)
