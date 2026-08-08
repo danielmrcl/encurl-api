@@ -1,33 +1,17 @@
 namespace Encurl.Api.Models;
 
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
 public class Link
 {
-	[BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-	public string? Id { get; set; }
-
-	[BsonElement("code")]
+	public Guid Id { get; set; } = Guid.NewGuid();
 	public required string Code { get; set; }
-
-	[BsonElement("url")]
 	public required string Url { get; set; }
-
-	[BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-	[BsonElement("createdAt")]
 	public DateTime CreatedAt { get; set; } = DateTime.Now;
 }
 
 public class ClickLog
 {
-	[BsonElement("linkId")]
-	public required string? LinkId { get; set; }
-
-	[BsonElement("metadata")]
+	public Guid Id { get; set; } = Guid.NewGuid();
+	public required Guid LinkId { get; set; }
 	public required string Metadata { get; set; }
-
-	[BsonElement("createdAt")]
 	public DateTime CreatedAt { get; set; } = DateTime.Now;
 }

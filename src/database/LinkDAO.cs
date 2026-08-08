@@ -1,33 +1,56 @@
 namespace Encurl.Api.Database;
 
-using MongoDB.Driver;
 using Encurl.Api.Models;
 
 public class LinkDAO
 {
-	private readonly IMongoCollection<Link> _client;
+	private readonly DBClient _client;
+	private readonly ILogger<LinkDAO> _logger;
 
-	public LinkDAO(DBClient client)
+	public LinkDAO(DBClient client, ILogger<LinkDAO> logger)
 	{
-		this._client = client.GetCollection<Link>();
+		this._client = client;
+		this._logger = logger;
 	}
 
 	public void Save(Link link)
 	{
-		_client.InsertOne(link);
+		String sqlQuery = @"INSERT INTO Links (Id, Code, Url, CreatedAt)
+		VALUES (@Id, @Code, @Url, @CreatedAt)";
+		var parameters = new Dictionary<string, object>();
+
+		parameters.Add("Id", link.Id.ToString());
+		parameters.Add("Code", link.Code);
+		parameters.Add("Url", link.Url);
+		parameters.Add("CreatedAt", DateTime.Now);
+
+		_client.RunUpdateQuery(sqlQuery, parameters);
+		_logger.LogInformation($"Link {link.Id} saved successfuly");
 	}
 
 	public Link FindByCode(string code)
 	{
-		var filter = new FilterDefinitionBuilder<Link>()
-			.Eq(v => v.Code, code);
-		return _client.FindSync(filter).SingleOrDefault();
+		String sqlQuery = @"SELECT l.* FROM Links l
+			WHERE l.Code = @Code";
+		var parameters = new Dictionary<string, object>();
+
+		parameters.Add("Code", code);
+
+		var links = _client.RunSelectQuery(sqlQuery, parameters);
+		_logger.LogInformation($"Finded {links.Count} links by code {code}");
+		return links.First();
 	}
 
 	public bool ExistsByCode(string code)
 	{
-		var filter = new FilterDefinitionBuilder<Link>()
-			.Eq(v => v.Code, code);
-		return _client.FindSync(filter).Any();
+		String sqlQuery = @"SELECT l.* FROM Links l
+			WHERE l.Code = @Code";
+		var parameters = new Dictionary<string, object>();
+
+		parameters.Add("Code", code);
+
+		var links = _client.RunSelectQuery(sqlQuery, parameters);
+		_logger.LogInformation($"Finded {links.Count} links by code {code}");
+		return links.Count > 0;
 	}
 }
