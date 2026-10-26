@@ -10,7 +10,7 @@ public class AuthService
 	private readonly string _staticUsername;
 	private readonly string _staticPassword;
 
-	public AuthService(IOptions<StaticCretentialsSettings> credentialOptions)
+	public AuthService(IOptions<StaticCredentialsSettings> credentialOptions)
 	{
 		_staticUsername = credentialOptions.Value.Username;
 		_staticPassword = credentialOptions.Value.Password;

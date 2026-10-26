@@ -9,7 +9,7 @@ public static class ConfigureBuilder
 	public static void Settings(WebApplicationBuilder builder)
 	{
 		builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("Database"));
-		builder.Services.Configure<StaticCretentialsSettings>(builder.Configuration.GetSection("StaticCretentials"));
+		builder.Services.Configure<StaticCredentialsSettings>(builder.Configuration.GetSection("StaticCretentials"));
 	}
 
 	public static void Singletons(WebApplicationBuilder builder)

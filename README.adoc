@@ -1,0 +1,47 @@
+= EncUrl - Link Shortner
+
+== Tech Stack
+
+- .Net Core 6 minimal API
+
+== HTTP Requests
+
+=== Auth for all POST and PUT requests.
+
+The Authorization header is needed to perform any POST or PUT requests.
+This is a Besic token that consists of "[StaticCredentials.Username]:[StaticCredentials.Password]" encoded with Base64.
+
+Example:
+[source,bash]
+---
+$ printf "e4c4c6e6-12d4-4fa0-be21-ae4987dfe739:3528e3e1-a506-4257-841a-759a4de2c2e7" | base64
+---
+
+=== Generate EncUrl Link
+
+[source,bash]
+---
+curl -X POST http://localhost:5271/api/links \
+	-H 'Content-Type: application/json' \
+	-H 'Authorization: Basic ZTRjNGM2ZTYtMTJkNC00ZmEwLWJlMjEtYWU0OTg3ZGZlNzM5OjM1MjhlM2UxLWE1MDYtNDI1Ny04NDFhLTc1OWE0ZGUyYzJlNw==' \
+	-d '{ "url": "https://danielmrcl.dev", "alias": "homepage" }'
+---
+
+Response:
+
+200 OK
+[source,json]
+---
+{
+	"generatedUrl": "http://localhost:5271/homepage"
+}
+---
+
+=== GoTo Webpage by Code
+
+[source,bash]
+---
+curl -X GET http://localhost:5271/xxxx \
+    -H 'X-Forwarded-For: 127.0.0.1' \
+    -H 'User-Agent: libcurl/8.18.0'
+---

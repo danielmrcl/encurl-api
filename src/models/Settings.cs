@@ -5,7 +5,7 @@ public class DatabaseSettings
 	public string ConnectionString { get; set; } = null!;
 }
 
-public class StaticCretentialsSettings
+public class StaticCredentialsSettings
 {
 	public string Username { get; set; } = null!;
 	public string Password { get; set; } = null!;
