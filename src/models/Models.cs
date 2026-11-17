@@ -7,3 +7,5 @@ public record CreateLinkResponseDTO(string GeneratedUrl);
 public record ErrorDTO(ushort Code, string Message);
 
 public record RequestMetadata(string IpAddress, string UserAgent);
+
+public record CachedLink(bool isError, string? Url);

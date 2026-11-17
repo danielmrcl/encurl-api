@@ -1,6 +1,5 @@
 namespace Encurl.Api.Config;
 
-using Microsoft.AspNetCore.Mvc;
 using Encurl.Api.Services;
 using Encurl.Api.Models;
 using Encurl.Api.Utils;
@@ -17,10 +16,13 @@ public static class Routes
 					IpAddress: context.Request.Headers["X-Forwarded-For"].FirstOrDefault() ?? "0.0.0.0",
 					UserAgent: context.Request.Headers["User-Agent"].FirstOrDefault() ?? "Unknown"
 				);
-				return Results.Redirect(service.FindLink(code, metadata), true, false);
+				var result = Results.Redirect(service.FindLink(code, metadata), true, false);
+				Metrics.IncLinkFind();
+				return result;
 			}
 			catch (Exception e) when (e is LinkException || e is InvalidOperationException)
 			{
+				Metrics.IncLinkFindError();
 				return Results.BadRequest(new ErrorDTO(400, e.Message));
 			}
 		});
@@ -29,10 +31,13 @@ public static class Routes
 		{
 			try
 			{
-				return Results.Ok(service.CreateLink(dto));
+				var result = Results.Ok(service.CreateLink(dto));
+				Metrics.IncLinkSave();
+				return result;
 			}
 			catch (InvalidFormException e)
 			{
+				Metrics.IncLinkSaveError();
 				return Results.BadRequest(new ErrorDTO(400, e.Message));
 			}
 		});

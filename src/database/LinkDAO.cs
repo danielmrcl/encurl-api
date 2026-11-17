@@ -38,6 +38,10 @@ public class LinkDAO
 
 		var links = _client.RunSelectQuery(sqlQuery, parameters);
 		_logger.LogInformation($"Finded {links.Count} links by code {code}");
+		if (links.Count == 0)
+		{
+			return null;
+		}
 		return links.First();
 	}
 

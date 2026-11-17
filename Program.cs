@@ -1,21 +1,13 @@
 using Encurl.Api.Config;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add CORS Policy
 var specificOriginsPolicyName = "_specificOriginsPolicyName";
-builder.Services.AddCors(options =>
-{
-	options.AddPolicy(name: specificOriginsPolicyName, policy =>
-		{
-			policy.WithOrigins("http://localhost:5173")
-				.WithMethods("POST")
-				.AllowAnyHeader();
-		});
-});
 
+var builder = WebApplication.CreateBuilder(args);
+ConfigureBuilder.Cors(builder, specificOriginsPolicyName);
 ConfigureBuilder.Settings(builder);
 ConfigureBuilder.Singletons(builder);
+ConfigureBuilder.Monitoring(builder);
+ConfigureBuilder.Caching(builder);
 
 var app = builder.Build();
 
